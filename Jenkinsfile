@@ -37,7 +37,7 @@ pipeline {
         }
         stage('Debug Branch') {
             steps {
-                sh 'echo "Current branch is: $BRANCH_NAME"'
+                sh 'echo "Current branch is: {env.GIT_BRANCH}"'
             }
         }
         stage('Run / Deploy') {
