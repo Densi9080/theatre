@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    triggers {
+        githubPush()
+    }
 
     environment {
         VENV_DIR = 'venv'
