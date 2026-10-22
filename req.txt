@@ -42,3 +42,4 @@ urllib3==2.6.0
 websockets==15.0.1
 yfinance==0.2.66
 zope.interface==8.1.1
+factory_boy>=3.3.0
