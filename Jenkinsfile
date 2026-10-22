@@ -35,14 +35,9 @@ pipeline {
                 '''
             }
         }
-        stage('Debug Branch') {
-            steps {
-                sh 'echo "Current branch is: {env.GIT_BRANCH}"'
-            }
-        }
         stage('Run / Deploy') {
             when {
-                    branch 'origin/main'
+                expression { env.GIT_BRANCH == 'origin/main' }
                 }
             steps {
                 sh '''
