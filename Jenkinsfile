@@ -58,7 +58,7 @@ pipeline {
 
                     # Даём секунду подняться и проверяем, что живой
                     sleep 3
-                    curl -f http://127.0.0.1:$APP_PORT/ || (echo "Django не поднялся"; cat django.log; exit 1)
+                    curl -f http://127.0.0.1:$APP_PORT/admin/ || (echo "Django не поднялся"; cat django.log; exit 1)
                 '''
             }
         }
