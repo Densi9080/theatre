@@ -42,7 +42,7 @@ pipeline {
         }
         stage('Run / Deploy') {
             when {
-                    branch 'main'
+                    branch 'origin/main'
                 }
             steps {
                 sh '''
