@@ -38,6 +38,9 @@ pipeline {
 
         stage('Run / Deploy') {
             steps {
+                when {
+                    branch 'main'
+                }
                 sh '''
                     . $VENV_DIR/bin/activate
 

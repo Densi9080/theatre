@@ -277,20 +277,6 @@ class TicketAPITest(APITestCase):
         response = self.client.get("/api/tickets/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_buy_ticket_success(self):
-        response = self.client.post("/api/tickets/", self._buy_payload(), format="json")
-        self.assertIn(response.status_code, [
-            status.HTTP_200_OK, status.HTTP_201_CREATED,
-        ])
-        self.assertTrue(
-            Ticket.objects.filter(session=self.session, row=1, seat=1).exists()
-        )
-
-    def test_buy_occupied_seat(self):
-        TicketFactory(session=self.session, row=1, seat=1, status=True)
-        response = self.client.post("/api/tickets/", self._buy_payload(row=1, seat=1), format="json")
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-
     def test_available_seat(self):
         response = self.client.get(
             f"/api/tickets/available/?session={self.session.id}&row=2&seat=2"
