@@ -60,7 +60,7 @@ pipeline {
                     sleep 3
                     curl -f http://127.0.0.1:$APP_PORT/admin/ || (echo "Django не поднялся"; cat django.log; exit 1)
                     echo JSON GENRES:
-                    curl -s -H "Accept: application/json" http://127.0.0.1:$APP_PORT/genres/ | python -m json.tool
+                    curl -s -H "Accept: application/json" http://127.0.0.1:$APP_PORTapi/genres/ | python -m json.tool
                 '''
             }
         }
