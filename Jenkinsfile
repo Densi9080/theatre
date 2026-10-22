@@ -35,7 +35,11 @@ pipeline {
                 '''
             }
         }
-
+        stage('Debug Branch') {
+            steps {
+                sh 'echo "Current branch is: $BRANCH_NAME"'
+            }
+        }
         stage('Run / Deploy') {
             when {
                     branch 'main'
