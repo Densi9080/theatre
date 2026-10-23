@@ -60,7 +60,7 @@ pipeline {
 
                         cd frontend
                         npm install
-                        nohup npm run dev -- --host 0.0.0.0 > vue.log 2>&1 &
+                        nohup npm run dev -- --port 5173 --host 0.0.0.0 > vue.log 2>&1 &
                         echo $! > vue.pid
                 
                         sleep 5
