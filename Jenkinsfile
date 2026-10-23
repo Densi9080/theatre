@@ -37,26 +37,36 @@ pipeline {
                 expression { env.GIT_BRANCH == 'origin/main' }
                 }
             steps {
-                sh '''
-                    . $VENV_DIR/bin/activate
+                keepRunning{
+                    sh '''
+                        . $VENV_DIR/bin/activate
 
-                    if [ -f django.pid ]; then
-                        kill $(cat django.pid) || true
-                        rm -f django.pid
-                    fi
+                        if [ -f django.pid ]; then
+                            kill $(cat django.pid) || true
+                            rm -f django.pid
+                        fi
 
-                    # Миграции (если есть БД)
-                    python manage.py migrate --noinput || true
+                        # Миграции (если есть БД)
+                        python manage.py migrate --noinput || true
 
-                    # Запуск в фоне, чтобы Jenkins не висел
-                    nohup python manage.py runserver 0.0.0.0:$APP_PORT > django.log 2>&1 &
-                    echo $! > django.pid
+                        # Запуск в фоне, чтобы Jenkins не висел
+                        nohup python manage.py runserver 0.0.0.0:$APP_PORT > django.log 2>&1 &
+                        echo $! > django.pid
 
-                    sleep 3
-                    curl -f http://127.0.0.1:$APP_PORT/admin/ || (echo "Django не поднялся"; cat django.log; exit 1)
-                    echo JSON GENRES:
-                    curl -s -H "Accept: application/json" http://127.0.0.1:$APP_PORT/api/genres/ | python -m json.tool
-                '''
+                        sleep 3
+                        curl -f http://127.0.0.1:$APP_PORT/admin/ || (echo "Django не поднялся"; cat django.log; exit 1)
+                        echo JSON GENRES:
+                        curl -s -H "Accept: application/json" http://127.0.0.1:$APP_PORT/api/genres/ | python -m json.tool
+
+                        cd frontend
+                        npm install
+                        nohup npm run dev -- --host 0.0.0.0 > vue.log 2>&1 &
+                        echo $! > vue.pid
+                
+                        sleep 5
+                        curl -f http://127.0.0.1:5173/ || (echo "Vue не поднялся"; cat vue.log; exit 1)
+                    '''
+                }
             }
         }
     }
