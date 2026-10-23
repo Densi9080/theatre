@@ -43,7 +43,6 @@ pipeline {
                 sh '''
                     . $VENV_DIR/bin/activate
 
-                    # Если старый процесс ещё жив — гасим
                     if [ -f django.pid ]; then
                         kill $(cat django.pid) || true
                         rm -f django.pid
@@ -56,7 +55,6 @@ pipeline {
                     nohup python manage.py runserver 0.0.0.0:$APP_PORT > django.log 2>&1 &
                     echo $! > django.pid
 
-                    # Даём секунду подняться и проверяем, что живой
                     sleep 3
                     curl -f http://127.0.0.1:$APP_PORT/admin/ || (echo "Django не поднялся"; cat django.log; exit 1)
                     echo JSON GENRES:
