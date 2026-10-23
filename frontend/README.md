@@ -15,7 +15,7 @@ quasar dev
 ```
 
 
-### Lint the file
+### Lint the files
 ```bash
 yarn lint
 # or
