@@ -6,7 +6,7 @@
         <q-btn flat to="/">
           <img src="theatre_logo.jpg" height="105" />
         </q-btn>
-        <q-btn flat label="Главная" to="/" />
+        <q-btn flat label="Главная страница" to="/" />
         <q-btn flat label="Спектакли" to="/shows" />
         <q-btn flat label="Новости" to="/news" />
         <q-btn flat label="Мои билеты" to="/my-tickets" />
