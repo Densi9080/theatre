@@ -55,9 +55,9 @@ pipeline {
 
                         sleep 3
                         curl -f http://127.0.0.1:$APP_PORT/admin/ || (echo "Django не поднялся"; cat django.log; exit 1)
-                        echo JSON GENRES:
-                        curl -s -H "Accept: application/json" http://127.0.0.1:$APP_PORT/api/genres/ | python -m json.tool
-
+                        
+                        DJANGO_SUPERUSER_USERNAME=admin DJANGO_SUPERUSER_PASSWORD=12345678qwerty DJANGO_SUPERUSER_EMAIL=test@test.com python manage.py createsuperuser --noinput || true
+                        
                         cd frontend
                         npm install
                         nohup npm run dev -- --port 5173 --host 0.0.0.0 > vue.log 2>&1 &
